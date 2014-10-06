@@ -1,41 +1,45 @@
 #encoding: UTF-8
+require 'yaml'
 
 =begin rdoc
 Programa para contar el papel.
-Tengo que crear dos arrays diferentes, uno para el sotano -1 y el otro para el sotano -2.
-También tendré un Hash para el total que será el que calcule con los datos ya obtenidos.
+Tengo que crear tres arrays diferentes, uno para el sotano -1 otro para el
+sotano -2 y un tercero para el cuarto del sotano -1.
+También tendré un Hash para el total que será el que calcule con los datos ya
+obtenidos.
 
-Esta es la primera clase que diseño en ruby, y gestiona la cantidad de papel que tenemos
-almacenada para su uso.
+Esta es la primera clase que diseño en ruby, y gestiona la cantidad de papel
+que tenemos almacenada para su uso.
 =end
-
 class Sotano
-	def initialize
-		@tamsot1 = 5 # Tamaños de los arrays.
-		@tamsot2 = 13 # Este tamaño podrá cambiar dependiendo de la cantidad de pales que tengamos almacenados.
-		@tipo = nil
-		@cantidad = nil
-                 # ------------------------
-		@sot1 = Array.new
-		@sot2 = Array.new
-                 #En este array dejaremos el total final para grabarlo en un fichero. En teoría debería ser un Hash.
-		@cantidadTotal = Array.new
-		@tiposPapel = ['DINA4', 'MOD1', 'MOD2', 'MOD3', 'MOD4']
-		@hash1 = {}
-  	end
+   # Inicialización de la clase. Inicializa el tamaño de los arrays donde se 
+   # meterán la cantidad de papel que hay por tipo y lugar (sotano -1, sotano 
+   # -2, etc.). 
+   # inicializa el tipo de papel en el array tiposPapel[], Inicializa los arrays 
+   # por lugar en donde se encuentra el papel (sotanos, o cuartos), etc.
+   def initialize
+      @tamsot1 = 5      # Tamaños de los arrays.
+      @tamsot2 = 13     # Este tamaño podrá cambiar dependiendo de la cantidad de
+                        # pales que tengamos almacenados.
+      @tipo = nil
+      @cantidad = nil
+      # ------------------------
+      @sot1 = Array.new
+      @sot2 = Array.new
+      @cuarto1 = Array.new
+      @cantidadTotal = Array.new
+      @tiposPapel = ['DINA4', 'MOD1', 'MOD2', 'MOD3', 'MOD4']
+      @hashTotal = {}
+  end
 
+  # Voy a hacer un bucle para sacar todos los elementos del array. En esta versión aparece ordenado
+  # por la pantalla aunque realmente en el array no este ordenado de verdad.
+  #
+  # Y además lo pondré para que salga por la pantalla en bonito.
   def verArray
-    #
-    # Voy a hacer un bucle para sacar todos los elementos del array. En esta versión aparece ordenado
-    # por la pantalla aunque realmente en el array no este ordenado de verdad.
-    #
     mirar1 = @sot1.sort
     puts ""
-    #
-    # Y ahora voy a ponerlo para que salga por la pantalla en bonito.
-    #
-
-    puts
+    puts ""
     printf("+------------------------------------------------------+\n")
     printf("|         |  DINA4 |  MOD1  |  MOD2  |  MOD3  |  MOD4  |\n")
     printf("+------------------------------------------------------+\n")
@@ -57,8 +61,8 @@ class Sotano
     puts
     printf("+------------------------------------------------------+\n")
   end
-
-  def plantillaBonita #Esto es mentira, es sólo para sacar por pantalla.
+# Esto es mentirijilla. Sólo sirve para sacar por pantalla una presentación guapa.
+  def plantillaBonita
     printf("+------------------------------------------------------+\n")
     printf("|         |  DINA4 |  MOD1  |  MOD2  |  MOD3  |  MOD4  |\n")
     printf("+------------------------------------------------------+\n")
@@ -66,6 +70,10 @@ class Sotano
     printf("|SOTANO -1|      0 |      0 |      0 |      0 |      0 |\n")
     printf("+------------------------------------------------------+\n")
     printf("|SOTANO -2|      0 |      0 |      0 |      0 |      0 |\n")
+    printf("+------------------------------------------------------+\n")
+    printf("|CUARTO   |      0 |      0 |      0 |      0 |      0 |\n")
+    printf("+------------------------------------------------------+\n")
+    printf("|TOTAL    |      0 |      0 |      0 |      0 |      0 |\n")
     printf("+------------------------------------------------------+\n")
   end
 
@@ -178,7 +186,7 @@ En el comienzo tenemos las variables y las constantes.
 
   def orden(modelo) 
     puts "modelo" 
-	 numero = @tiposPapel.index(modelo) 
+    numero = @tiposPapel.index(modelo) 
     puts "El índice numérico del array del tipo de modelo " + modelo + " es: " + numero.to_s 
     return numero 
   end
@@ -212,7 +220,7 @@ sotanos.plantillaBonita
 puts ""
 sotanos.bucle # Introducir los datos por teclado.
 puts ""
-puts "En la semana nº: #{sotanos.semana} del año, en la fecha: #{sotanos.fecha}, tenemos la cantidad de PAPEL:"
+puts "En la semana nº: #{sotanos.semana} del año, en siendo la fecha: #{sotanos.fecha}, tenemos la cantidad de PAPEL:"
 puts sotanos.verArray
 puts ""
 #system('dir')
