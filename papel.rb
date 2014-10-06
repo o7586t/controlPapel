@@ -61,6 +61,7 @@ class Sotano
     puts
     printf("+------------------------------------------------------+\n")
   end
+
 # Esto es mentirijilla. Sólo sirve para sacar por pantalla una presentación guapa.
   def plantillaBonita
     printf("+------------------------------------------------------+\n")
