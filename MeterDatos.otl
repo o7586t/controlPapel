@@ -1,0 +1,85 @@
+################################################################################
+#
+# Plantilla Casos de Uso --02/10/2013 10:54:06--
+#
+################################################################################
+#
+#
+#
+################################################################################ 
+Guion:
+	Una aplicación en Ruby que gestione la cantidad de papel que se tiene almacenado. El almacén sotano-2
+	tiene una capacidad limitada de pales y en el se guardan diversos tipos distintos de papel. MOD1,
+	hasta MOD4 y DINA4.
+	
+	También tendremos una cantidad menor de papel en el sotano-1 en donde tenemos ubicadas las
+	impresoras. La suma de los dos almacenes nos tiene que dar el total del papel que poseemos. 
+	
+	Al obtener el total deberemos mandar un correo a RedMine con la información y también guardaremos la
+	información en un fichero en forma de registro semanal.
+
+	El proceso de captura de información será un CRUD en forma de texto en la consola.
+
+----------------------------------------
+
+NOMBRE:
+	MeterDatos
+Actores:
+	Operador
+Descripción:
+	Introducción de la cantidad de papel que queda en los almacenes para su seguimiento y control.
+Disparador: XXX
+
+Precondiciones: XXX
+
+Postcondiciones:
+	Se introduce un juego completo de datos en forma de registro en un fichero plano 'csv'. Estos son el tipo de papel y la cantidad del mismo que existen en los almacenes.
+Flujo normal:
+	1) [Exponer menú] El usuario elige en el menú lo que desea hacer.
+		: 
+		: MENÚ PAPEL DEL ALMACÉN (1)
+		: ==========================
+		: 
+		: (1) INTRODUCIR DATOS.
+		: (2) COMPROBAR DATOS INTRODUCIDOS.
+		: (3) ANULAR DATOS INTRODUCIDOS.
+		:
+		: (4) SALIR.
+		
+		1A) Ir al menú en el cual podremos introducir los datos del papel.
+		1B) Comprobar los datos que se han introducido en el menú de meter datos.
+		1C) Anular todo el proceso de introducción de datos y abortar la operación.
+
+	2) [Introducir datos] El usuario elige en el menú la modalidad de introducción de datos.
+		: 
+		: MENÚ PAPEL DEL ALMACÉN (2)
+		: ==========================
+		: 
+		: (1) Meter datos (todos).
+		: (2) Meter un sólo dato.
+		:
+		: (4) Volver pantalla anterior.
+		
+		2A) Introducir todos los datos.
+			1) Mediante un bucle, pidiendo todos uno a uno. Fácil.
+			2) Introduciendo todos los datos mediante un único registro. Para más adelante, si se puede.
+		2B) Meter solamente un único dato.
+	3) [Mostrar datos] Publicar por pantalla los datos introducidos para su comprobación.
+	4) [Anular] Anular los datos introducidos.
+	5) [Guardar datos] Persistencia.
+
+Flujos alternativos
+
+Excepciones
+		
+Prioridad
+
+Frecuencia de uso
+
+Reglas de negocio
+
+Requerimientos especiales
+
+Suposiciones
+
+Notas y preguntas
