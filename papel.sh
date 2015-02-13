@@ -378,8 +378,9 @@ verArraySotano-2
 #verArraySotano-1
 #verArrayCuarto
 
-Tabla SOTANO-2 1 6 7
+#Tabla SOTANO-2 1 6 7
 Tabla22 SOTANO-1 0 14 4 0 
+Tabla22 SOTANO-2 1 0 6 7 
 
 #echo "Ver el array completo. CANTIDADPAPEL[*]"
 #echo ${CANTIDADPAPEL[*]}
