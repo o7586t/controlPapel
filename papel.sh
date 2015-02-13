@@ -62,6 +62,92 @@ volverIFS()
   IFS=$IFS_old
 }
 
+Tabla()
+{
+echo " "
+printf "+---------------------------------------------------------------------+\n"
+printf "|                               $1                              |\n"
+printf "+---------------------------------------------------------------------+\n"
+
+COMIENZOFIL=0
+FINFIL=$2
+
+COMIENZOCOLTIPO=0                       # Tipo de papel.
+FINCOLTIPO=$[ $COMIENZOCOLTIPO + $3 ]    # Tipo de papel.
+COMIENZOCOL=0                           # Cantidad de papel.
+FINCOL=$[ $COMIENZOCOL + $3 ]            # Cantidad de papel.
+
+CANTIDADPAPEL0=( ${CANTIDADPAPEL[0]} )  # Separar el array en dos arrays. Uno de cantidades y el otro de tipo de papeles.
+
+VARSEQFIL=$(seq $COMIENZOFIL $FINFIL)   # Secuencia para el bucle 'for'.
+VARSEQCOL=$(seq $COMIENZOCOL $FINCOL)   # Secuencia para el otro bucle 'for'.
+for j in ${VARSEQFIL}
+  do
+
+    printf "|"
+      for i in $(seq $COMIENZOCOLTIPO $FINCOLTIPO)
+        do
+          printf "%9s" ${TIPOPAPEL[i]};printf "|"
+        done  
+    COMIENZOCOLTIPO=$[ $COMIENZOCOLTIPO + $4 ]
+    FINCOLTIPO=$[ $FINCOLTIPO + $4 ]
+    printf "\n+---------------------------------------------------------------------+\n"
+
+    printf "|"
+      for i in $(seq $COMIENZOCOL $FINCOL)
+        do
+          printf "%9d" ${CANTIDADPAPEL0[i]};printf "|"
+        done  
+    COMIENZOCOL=$[ $COMIENZOCOL + $4 ]
+    FINCOL=$[ $FINCOL + $4 ]
+    printf "\n+---------------------------------------------------------------------+\n"
+
+  done
+}
+
+Tabla22()
+{
+echo " "
+printf "+---------------------------------------------------------------------+\n"
+printf "|                               $1                              |\n"
+printf "+---------------------------------------------------------------------+\n"
+
+COMIENZOFIL=0
+FINFIL=$2
+
+COMIENZOCOLTIPO=$3                       # Tipo de papel.
+FINCOLTIPO=$[ $COMIENZOCOLTIPO + $4 ]    # Tipo de papel.
+COMIENZOCOL=$3                           # Cantidad de papel.
+FINCOL=$[ $COMIENZOCOL + $4 ]            # Cantidad de papel.
+
+CANTIDADPAPEL0=( ${CANTIDADPAPEL[0]} )  # Separar el array en dos arrays. Uno de cantidades y el otro de tipo de papeles.
+
+VARSEQFIL=$(seq $COMIENZOFIL $FINFIL)   # Secuencia para el bucle 'for'.
+VARSEQCOL=$(seq $COMIENZOCOL $FINCOL)   # Secuencia para el otro bucle 'for'.
+for j in ${VARSEQFIL}
+  do
+
+    printf "|"
+      for i in $(seq $COMIENZOCOLTIPO $FINCOLTIPO)
+        do
+          printf "%9s" ${TIPOPAPEL[i]};printf "|"
+        done  
+    COMIENZOCOLTIPO=$[ $COMIENZOCOLTIPO + $5 ]
+    FINCOLTIPO=$[ $FINCOLTIPO + $5 ]
+    printf "\n+---------------------------------------------------------------------+\n"
+
+    printf "|"
+      for i in $(seq $COMIENZOCOL $FINCOL)
+        do
+          printf "%9d" ${CANTIDADPAPEL0[i]};printf "|"
+        done  
+    COMIENZOCOL=$[ $COMIENZOCOL + $5 ]
+    FINCOL=$[ $FINCOL + $5 ]
+    printf "\n+---------------------------------------------------------------------+\n"
+
+  done
+}
+
 verArraySotano-2()
 {
 
@@ -289,8 +375,11 @@ echo ""
 inicializarArrayTipos
 cargarArrayTipos
 verArraySotano-2
-verArraySotano-1
-verArrayCuarto
+#verArraySotano-1
+#verArrayCuarto
+
+Tabla SOTANO-2 1 6 7
+Tabla22 SOTANO-1 0 14 4 0 
 
 #echo "Ver el array completo. CANTIDADPAPEL[*]"
 #echo ${CANTIDADPAPEL[*]}
@@ -301,6 +390,6 @@ verArrayCuarto
 
 echo ""
 
-verArrayTotal
+#verArrayTotal
 
 echo ""
