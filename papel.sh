@@ -29,7 +29,6 @@ inicializarArrayTipos()
 {
   for i in $(seq 0 27) 
   do
-	  #declare -a TIPOPAPEL
 	  TIPOPAPEL[$i]=" "
   done
 }
@@ -37,22 +36,13 @@ inicializarArrayTipos()
 cargarArrayTipos()
 {
 TIPOPAPEL=( $(cat datosPapel.csv | tail -n 1) )
-#TIPOPAPEL=( `cat "datosPapel.csv" | tail -1` )
-#CANTIDADPAPEL=( $(cat datosPapel.csv | tail -2) )
-#printf "El valor que tiene la variable IFS es: %b ${IFS}"
-          #IFS_old=$IFS
-          #IFS=$'\n'   # Importante mete el escape \n de esta forma.
-#printf "El valor que tiene la variable IFS es: %b ${IFS}"
 cambiarIFS    # Para poder leer las dos líneas y cargarlas en un Array
-#CANTIDADPAPEL=( `cat datosPapel.csv | tail -n 2` )
 CANTIDADPAPEL=( $(cat datosPapel.csv | tail -n 2) )
-          #IFS=$IFS_old
 volverIFS
 }
 
 cambiarIFS()
 {
-  # Importante mete el escape $'\n' de esta forma.
   IFS_old=$IFS
   IFS=$'\n'
 }
@@ -63,49 +53,6 @@ volverIFS()
 }
 
 Tabla()
-{
-echo " "
-printf "+---------------------------------------------------------------------+\n"
-printf "|                               $1                              |\n"
-printf "+---------------------------------------------------------------------+\n"
-
-COMIENZOFIL=0
-FINFIL=$2
-
-COMIENZOCOLTIPO=0                       # Tipo de papel.
-FINCOLTIPO=$[ $COMIENZOCOLTIPO + $3 ]    # Tipo de papel.
-COMIENZOCOL=0                           # Cantidad de papel.
-FINCOL=$[ $COMIENZOCOL + $3 ]            # Cantidad de papel.
-
-CANTIDADPAPEL0=( ${CANTIDADPAPEL[0]} )  # Separar el array en dos arrays. Uno de cantidades y el otro de tipo de papeles.
-
-VARSEQFIL=$(seq $COMIENZOFIL $FINFIL)   # Secuencia para el bucle 'for'.
-VARSEQCOL=$(seq $COMIENZOCOL $FINCOL)   # Secuencia para el otro bucle 'for'.
-for j in ${VARSEQFIL}
-  do
-
-    printf "|"
-      for i in $(seq $COMIENZOCOLTIPO $FINCOLTIPO)
-        do
-          printf "%9s" ${TIPOPAPEL[i]};printf "|"
-        done  
-    COMIENZOCOLTIPO=$[ $COMIENZOCOLTIPO + $4 ]
-    FINCOLTIPO=$[ $FINCOLTIPO + $4 ]
-    printf "\n+---------------------------------------------------------------------+\n"
-
-    printf "|"
-      for i in $(seq $COMIENZOCOL $FINCOL)
-        do
-          printf "%9d" ${CANTIDADPAPEL0[i]};printf "|"
-        done  
-    COMIENZOCOL=$[ $COMIENZOCOL + $4 ]
-    FINCOL=$[ $FINCOL + $4 ]
-    printf "\n+---------------------------------------------------------------------+\n"
-
-  done
-}
-
-Tabla22()
 {
 echo " "
 printf "+---------------------------------------------------------------------+\n"
@@ -225,8 +172,6 @@ FINCOL=$[ $COMIENZOCOL + 4]
 		do
 		  printf "%9d" ${CANTIDADPAPEL0[i]};printf "|"
 		done  
-	    #COMIENZOCOL=$[ $COMIENZOCOL + 7 ]
-	    #FINCOL=$[ $FINCOL + 7 ]
 	    printf "\n+-------------------------------------------------+\n"
 
 	done
@@ -239,27 +184,6 @@ echo " "
 printf "+-----------------------------+\n"
 printf "|            CUARTO           |\n"
 printf "+-----------------------------+\n"
-
-# COMIENZOFIL=0
-# FINFIL=2
-# COMIENZOCOL=19
-# FINCOL=$[ $COMIENZOCOL + 2 ]
-# 
-#   VARSEQFIL=$(seq $COMIENZOFIL $FINFIL)
-#   VARSEQCOL=$(seq $COMIENZOCOL $FINCOL)
-#   for j in ${VARSEQFIL}
-# 	do
-# 	  printf "|"
-# 	    for i in $(seq $COMIENZOCOL $FINCOL)
-# 		   do
-# 		      printf "%9s" ${TIPOPAPEL[i]};printf "|"
-# 		   done	
-# 		COMIENZOCOL=$[ $COMIENZOCOL + 3 ]
-# 		FINCOL=$[ $FINCOL + 3 ]
-# 	  printf "\n+-----------------------------+\n"
-# 	done
-
-###############################################################
 
 COMIENZOCOLTIPO=19                        # Tipo de papel.
 FINCOLTIPO=$[ $COMIENZOCOLTIPO + 2 ]      # Tipo de papel.
@@ -290,7 +214,6 @@ for j in ${VARSEQFIL}
     printf "\n+-----------------------------+\n"
   done
 
-###############################################################
 }
 
 verArrayTotal()
@@ -336,10 +259,34 @@ verArrayTotal()
     printf "\n+------------------------------------------------------+\n"
 }
 
+ringlera()
+{
+		  printf "+"
+		  for i in $(seq 0 $1)
+		  do
+					 printf "-"
+		  done
+		  printf "+"
+}
+
+colocacion()
+{
+		  printf "|"
+		  for i in $(seq 0 $1)
+		  do
+					 printf " "
+		  done
+		  printf "$2"
+		  for i in $(seq 0 $1)
+		  do
+					 printf " "
+		  done
+		  printf "|"
+}
+
 comprobacionPapel()
 {
     estar=false
-    # Iteracion que recorre el array.
     for tipo in ${TIPOS}
     do
       if ($1 == tipo)
@@ -374,23 +321,24 @@ echo ""
 
 inicializarArrayTipos
 cargarArrayTipos
-verArraySotano-2
-#verArraySotano-1
-#verArrayCuarto
+#verArraySotano-2
 
-#Tabla SOTANO-2 1 6 7
-Tabla22 SOTANO-1 0 14 4 0 
-Tabla22 SOTANO-2 1 0 6 7 
-
-#echo "Ver el array completo. CANTIDADPAPEL[*]"
-#echo ${CANTIDADPAPEL[*]}
-#echo "Ver el array 0. CANTIDADPAPEL[0]"
-#echo ${CANTIDADPAPEL[0]}
-#echo "Ver el array 1. CANTIDADPAPEL[1]"
-#echo ${CANTIDADPAPEL[1]}
+Tabla SOTANO-1 0 14 4 0 
+Tabla SOTANO-2 1 0 6 7 
 
 echo ""
+ringlera 49
+echo ""
+colocacion 20 SOTANO-1
+echo ""
+ringlera 49
+echo ""
+ringlera 69 
+echo ""
+colocacion 30 SOTANO-2
+echo ""
+ringlera 69
 
-#verArrayTotal
+
 
 echo ""
