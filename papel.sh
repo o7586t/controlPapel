@@ -55,9 +55,9 @@ volverIFS()
 Tabla()
 {
 echo " "
-printf "+---------------------------------------------------------------------+\n"
-printf "|                               $1                              |\n"
-printf "+---------------------------------------------------------------------+\n"
+#printf "+---------------------------------------------------------------------+\n"
+#printf "|                               $1                              |\n"
+#printf "+---------------------------------------------------------------------+\n"
 
 COMIENZOFIL=0
 FINFIL=$2
@@ -81,7 +81,13 @@ for j in ${VARSEQFIL}
         done  
     COMIENZOCOLTIPO=$[ $COMIENZOCOLTIPO + $5 ]
     FINCOLTIPO=$[ $FINCOLTIPO + $5 ]
-    printf "\n+---------------------------------------------------------------------+\n"
+
+    printf "\n"
+    #ringlera 48
+    ringlera $6
+    printf "\n"
+
+    #printf "\n+---------------------------------------------------------------------+\n"
 
     printf "|"
       for i in $(seq $COMIENZOCOL $FINCOL)
@@ -90,7 +96,13 @@ for j in ${VARSEQFIL}
         done  
     COMIENZOCOL=$[ $COMIENZOCOL + $5 ]
     FINCOL=$[ $FINCOL + $5 ]
-    printf "\n+---------------------------------------------------------------------+\n"
+
+    printf "\n"
+    #ringlera 48
+    ringlera $6
+    printf "\n"
+
+    #printf "\n+---------------------------------------------------------------------+\n"
 
   done
 }
@@ -323,21 +335,25 @@ inicializarArrayTipos
 cargarArrayTipos
 #verArraySotano-2
 
-Tabla SOTANO-1 0 14 4 0 
-Tabla SOTANO-2 1 0 6 7 
+#Tabla SOTANO-1 0 14 4 0 
+#Tabla SOTANO-2 1 0 6 7 
 
 echo ""
-ringlera 49
+ringlera 48
 echo ""
-colocacion 20 SOTANO-1
+colocacion 19 "SOTANO -1"
 echo ""
-ringlera 49
+ringlera 48
+Tabla SOTANO-1 0 14 4 0 48 
+
+
 echo ""
-ringlera 69 
+ringlera 68
 echo ""
-colocacion 30 SOTANO-2
+colocacion 29 "SOTANO -2"
 echo ""
-ringlera 69
+ringlera 68
+Tabla SOTANO-2 1 0 6 7 68 
 
 
 
