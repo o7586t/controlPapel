@@ -7,6 +7,7 @@
 ##############################################################################
 
 FECHA=`date +20%y/%m/%d`
+FECHAHM=`date +%Y%m%d%H%M`
 SEMANA=`date '+%V'`
 declare -a TIPOS=(MOD1 MOD2 MOD3 MOD4 DINA4)
 declare -a TIPOPAPEL
@@ -16,6 +17,16 @@ declare -a TOTAL_SOTANO_002
 declare -a TOTAL_SOTANO_001
 declare -a TOTAL_CUARTO
 declare -a TOTAL_TOTAL
+
+##############################################################################
+##############################################################################
+# Meter escapes en la pantalla para poner negritas y colores en la consola.
+##############################################################################
+##############################################################################
+
+esc=""
+negrita="${esc}[1m"
+q_negrita="${esc}[22m"
 
 ##############################################################################
 ##############################################################################
@@ -244,6 +255,9 @@ for j in ${VARSEQFIL}
 
 grabarDisco()
 {
+echo "###############################################################################" >> $FICHERO
+echo "Estamos a fecha: $FECHAHM Semana nº: $SEMANA" >> $FICHERO
+echo "###############################################################################" >> $FICHERO
 echo ${CANTIDADPAPEL[0]} >> $FICHERO
 echo ""
 echo ${CANTIDADPAPEL[1]} >> $FICHERO
@@ -401,7 +415,7 @@ funcionCuarto
 # ---------------------------
 
 cargarArrayTipos
-grabarDisco
+#grabarDisco   # Para quitar....
 
 #verArrayTotal
 tablaResumenTotal
@@ -414,5 +428,52 @@ echo ""
 ringlera 53 
 tablaResumen SOTANO-2 2 19 2 3 28 
 
-
 echo ""
+
+##############################################################################
+##############################################################################
+##############################################################################
+##############################################################################
+
+#
+# Meter escapes en la pantalla para poner negritas y colores en la consola.
+#
+esc=""
+negrita="${esc}[1m"
+q_negrita="${esc}[22m"
+
+menu ()
+{
+    echo ""
+    echo ""
+    echo "${negrita}GESTIÓN DEL PAPEL EN LOS ALMACENES (MENU).${q_negrita}"
+    echo "==================================================="
+    echo ""
+    echo "1) Meter datos SOTANO -2."
+    echo "2) Meter datos SOTANO -1."
+    echo "3) Meter datos CUARTO."
+    echo "4) Calcular el TOTAL."
+    echo "=================================="
+    echo "5) Salir";echo "" 
+
+    read -p "Meter opción elegida: " answer 
+    case "$answer" in 
+        1) crear;;
+        2) buscar;;
+        3) ;;
+        4) borrar;;
+        5) grabarDisco;exit;;   #Grabar los datos a fichero.
+        *) echo "Eleccion incorrecta.Debe introducir 1, 2, 3, 4, o 5."; sleep 1;;
+    esac
+}
+
+##############################################################################
+##############################################################################
+## EN ESTE PUNTO PONEMOS UN BUCLE INFINITO Y COMIENZA EL PROGRAMA.
+##############################################################################
+##############################################################################
+
+while ((0 == 0))
+  do
+    menu 
+  done
