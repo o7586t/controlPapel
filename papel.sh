@@ -108,9 +108,32 @@ contar()
 {
 for i in $(seq 0 4)
   do
-    #for j in $(seq 0 13)
-    #for j in $(seq 14 18)
     for j in $(seq 19 27)
+      do
+        if [ ${TIPOS[i]} == ${TIPOPAPEL[j]} ]
+          then 
+            TOTAL_SOTANO_002[i]=$(( ${TOTAL_SOTANO_002[i]} + ${CANTIDADPAPEL0[j]} ))
+            echo "TIPOPAPEL: ${TIPOPAPEL[j]}"
+            echo "TOTAL_SOTANO_002: ${TOTAL_SOTANO_002[i]}"
+            echo "CANTIDADPAPEL: ${CANTIDADPAPEL0[j]}"
+        fi
+      done 
+  done
+printf "1) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[@]}
+printf "2) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[*]}
+printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
+}
+
+##############################################################################
+## FUNCIÓN QUE CALCULA LOS TOTALES QUE QUEDAN.
+##############################################################################
+##############################################################################
+
+contar02()
+{
+for i in $(seq 0 4)
+  do
+    for j in $(seq $1 $2)
       do
         if [ ${TIPOS[i]} == ${TIPOPAPEL[j]} ]
           then 
@@ -459,6 +482,9 @@ tablaResumen SOTANO-2 2 19 2 3 28
 echo ""
 
 echo "Aquí pongo la prueba de la suma."
+
+contar02 0 13
+contar02 14 18
 contar
 
 ##############################################################################
