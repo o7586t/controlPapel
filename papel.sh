@@ -15,6 +15,7 @@ declare -a CANTIDADPAPEL
 FICHERO="./datosPapelOSTIAS.csv"
 declare -a TOTAL_SOTANO_002
 declare -a TOTAL_SOTANO_001
+declare -a TOTAL_SOTANO		# Variable temporal para cálculos.
 declare -a TOTAL_CUARTO
 declare -a TOTAL_TOTAL
 
@@ -106,6 +107,8 @@ IFS=$IFS_old
 
 contar()
 {
+printf "1) Inicializar las variables a cero: "; TOTAL_SOTANO_002=0; echo ${TOTAL_SOTANO_002[@]}
+printf "2) Inicializar las variables a cero: "; TOTAL_SOTANO_002=0; echo ${TOTAL_SOTANO_002[*]}
 for i in $(seq 0 4)
   do
     for j in $(seq 19 27)
@@ -131,22 +134,24 @@ printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
 
 contar02()
 {
+printf "1) Inicializar las variables a cero: "; TOTAL_SOTANO=( ); echo ${TOTAL_SOTANO[@]}
+printf "2) Inicializar las variables a cero: "; TOTAL_SOTANO=( ); echo ${TOTAL_SOTANO[*]}
 for i in $(seq 0 4)
   do
     for j in $(seq $1 $2)
       do
         if [ ${TIPOS[i]} == ${TIPOPAPEL[j]} ]
           then 
-            TOTAL_SOTANO_002[i]=$(( ${TOTAL_SOTANO_002[i]} + ${CANTIDADPAPEL0[j]} ))
-            echo "TIPOPAPEL: ${TIPOPAPEL[j]}"
-            echo "TOTAL_SOTANO_002: ${TOTAL_SOTANO_002[i]}"
-            echo "CANTIDADPAPEL: ${CANTIDADPAPEL0[j]}"
+            TOTAL_SOTANO[i]=$(( ${TOTAL_SOTANO[i]} + ${CANTIDADPAPEL0[j]} ))
+#            echo "TIPOPAPEL: ${TIPOPAPEL[j]}"
+#            echo "TOTAL_SOTANO_002: ${TOTAL_SOTANO[i]}"
+#            echo "CANTIDADPAPEL: ${CANTIDADPAPEL0[j]}"
         fi
       done 
   done
-printf "1) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[@]}
-printf "2) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[*]}
-printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
+#printf "1) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO[@]}
+#printf "2) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO[*]}
+#printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
 }
 
 ##############################################################################
@@ -484,8 +489,11 @@ echo ""
 echo "Aquí pongo la prueba de la suma."
 
 contar02 0 13
+echo "SOTANO -2 --> ${TOTAL_SOTANO[@]}"
 contar02 14 18
-contar
+echo "SOTANO -2 --> ${TOTAL_SOTANO[@]}"
+contar02 19 27
+echo "CUARTO --> ${TOTAL_SOTANO[@]}"
 
 ##############################################################################
 ##############################################################################
