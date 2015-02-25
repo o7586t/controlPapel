@@ -15,8 +15,8 @@ declare -a CANTIDADPAPEL
 FICHERO="./datosPapelOSTIAS.csv"
 declare -a TOTAL_SOTANO_002
 declare -a TOTAL_SOTANO_001
-declare -a TOTAL_SOTANO		# Variable temporal para cálculos.
 declare -a TOTAL_CUARTO
+declare -a TOTAL_SOTANO		# Variable temporal para cálculos.
 declare -a TOTAL_TOTAL
 
 ##############################################################################
@@ -107,35 +107,7 @@ IFS=$IFS_old
 
 contar()
 {
-printf "1) Inicializar las variables a cero: "; TOTAL_SOTANO_002=0; echo ${TOTAL_SOTANO_002[@]}
-printf "2) Inicializar las variables a cero: "; TOTAL_SOTANO_002=0; echo ${TOTAL_SOTANO_002[*]}
-for i in $(seq 0 4)
-  do
-    for j in $(seq 19 27)
-      do
-        if [ ${TIPOS[i]} == ${TIPOPAPEL[j]} ]
-          then 
-            TOTAL_SOTANO_002[i]=$(( ${TOTAL_SOTANO_002[i]} + ${CANTIDADPAPEL0[j]} ))
-            echo "TIPOPAPEL: ${TIPOPAPEL[j]}"
-            echo "TOTAL_SOTANO_002: ${TOTAL_SOTANO_002[i]}"
-            echo "CANTIDADPAPEL: ${CANTIDADPAPEL0[j]}"
-        fi
-      done 
-  done
-printf "1) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[@]}
-printf "2) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO_002[*]}
-printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
-}
-
-##############################################################################
-## FUNCIÓN QUE CALCULA LOS TOTALES QUE QUEDAN.
-##############################################################################
-##############################################################################
-
-contar02()
-{
-printf "1) Inicializar las variables a cero: "; TOTAL_SOTANO=( ); echo ${TOTAL_SOTANO[@]}
-printf "2) Inicializar las variables a cero: "; TOTAL_SOTANO=( ); echo ${TOTAL_SOTANO[*]}
+TOTAL_SOTANO=( 0 0 0 0 0 )  	# Inicializar las variables del array a cero
 for i in $(seq 0 4)
   do
     for j in $(seq $1 $2)
@@ -143,15 +115,24 @@ for i in $(seq 0 4)
         if [ ${TIPOS[i]} == ${TIPOPAPEL[j]} ]
           then 
             TOTAL_SOTANO[i]=$(( ${TOTAL_SOTANO[i]} + ${CANTIDADPAPEL0[j]} ))
-#            echo "TIPOPAPEL: ${TIPOPAPEL[j]}"
-#            echo "TOTAL_SOTANO_002: ${TOTAL_SOTANO[i]}"
-#            echo "CANTIDADPAPEL: ${CANTIDADPAPEL0[j]}"
         fi
       done 
   done
-#printf "1) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO[@]}
-#printf "2) Imprimir todo el resultado calculado: "; echo ${TOTAL_SOTANO[*]}
-#printf "2) Imprimir tipos distintos de papel: "; echo ${TIPOS[*]}
+}
+
+##############################################################################
+##############################################################################
+## FUNCIÓN QUE CALCULA EL TOTAL DE LOS TOTALES. 
+##############################################################################
+##############################################################################
+
+contarTOTAL()
+{
+TOTAL_TOTAL=( 0 0 0 0 0 )  	# Inicializar las variables del array a cero
+for i in $(seq 0 4)
+  do
+    TOTAL_TOTAL[i]=$(( ${TOTAL_SOTANO_001[i]} + ${TOTAL_SOTANO_002[i]} + ${TOTAL_CUARTO[i]} ))
+  done
 }
 
 ##############################################################################
@@ -204,6 +185,12 @@ for j in ${VARSEQFIL}
   done
 }
 
+##############################################################################
+##############################################################################
+## FUNCIÓN QUE REPRESENTA LA TABLA RESUMEN FINAL.
+##############################################################################
+##############################################################################
+
 tablaResumenTotal()
 {
     echo " "
@@ -215,41 +202,31 @@ tablaResumenTotal()
     printf "+------------------------------------------------------+\n"
 
     printf "|SOTANO -1|"
-
-#
-# Calcular el resumen de Sotano -1.
-#
-
     for i in $(seq 0 4)
     do
-#      printf "%8s" ${TIPOS[i]}; printf "|"
-      printf "%8s" ${CANTIDADPAPEL0[i]}; printf "|" # Esto es el papel del array no el total de papel por tipos.
+      printf "%8s" ${TOTAL_SOTANO_001[i]}; printf "|"
     done
-
     printf "\n+------------------------------------------------------+\n"
 
     printf "|SOTANO -2|"
     for i in $(seq 0 4)
     do
-      printf "%8s" ${TIPOS[i]}; printf "|"
+      printf "%8s" ${TOTAL_SOTANO_002[i]}; printf "|"
     done
-
     printf "\n+------------------------------------------------------+\n"
 
     printf "|CUARTO   |"
     for i in $(seq 0 4)
     do
-      printf "%8s" ${TIPOS[i]}; printf "|"
+      printf "%8s" ${TOTAL_CUARTO[i]}; printf "|"
     done
-
     printf "\n+------------------------------------------------------+\n"
 
     printf "|TOTAL    |"
     for i in $(seq 0 4)
     do
-      printf "%8s" ${TIPOS[i]}; printf "|"
+      printf "%8s" ${TOTAL_TOTAL[i]}; printf "|"
     done
-
     printf "\n+------------------------------------------------------+\n"
 }
 
@@ -471,29 +448,21 @@ funcionCuarto
 # ---------------------------
 
 cargarArrayTipos
-#grabarDisco   # Para quitar....
 
-#verArrayTotal
+contar 0 13
+TOTAL_SOTANO_002=(${TOTAL_SOTANO[*]})
+echo " "
+
+contar 14 18
+TOTAL_SOTANO_001=(${TOTAL_SOTANO[@]})
+echo " "
+
+contar 19 27
+TOTAL_CUARTO=(${TOTAL_SOTANO[@]})
+echo " "
+
+contarTOTAL
 tablaResumenTotal
-
-echo ""
-ringlera 53 
-echo ""
-colocacion 19 "TOTAL RESUMIDO"
-echo ""
-ringlera 53 
-tablaResumen SOTANO-2 2 19 2 3 28 
-
-echo ""
-
-echo "Aquí pongo la prueba de la suma."
-
-contar02 0 13
-echo "SOTANO -2 --> ${TOTAL_SOTANO[@]}"
-contar02 14 18
-echo "SOTANO -2 --> ${TOTAL_SOTANO[@]}"
-contar02 19 27
-echo "CUARTO --> ${TOTAL_SOTANO[@]}"
 
 ##############################################################################
 ##############################################################################
