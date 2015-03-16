@@ -64,6 +64,24 @@ Flujo normal:
 			1) Mediante un bucle, pidiendo todos uno a uno. Fácil.
 			2) Introduciendo todos los datos mediante un único registro. Para más adelante, si se puede.
 		2B) Meter solamente un único dato.
+			1) Hacer un bucle (lógica de negocio).
+				:
+				: que recorra todo el array, tanto de tipo de papel como de las cantidades de los mismos.
+				: SOT-02, SOT-01, CUARTO.
+				:
+			2) Bucle de posición.
+			3) Bucle de modelo (CAMBIO).
+			4) Cambio de Cantidades.....
+				: 
+				: [SOT-02:09:MOD4 ] 75000 Y/N
+				: [SOT-02:09:DINA4] 500 Y/N
+				: 	Y -> [SOT-02:09:DINA4] 500
+				: 	N -> [SOT-02:09:DINA4] 3500
+				: 	C -> [SOT-02:09:DINA4] 3500 Y/N (Confirmar).
+				: 
+				: [SOT-02:09:MOD4 ] 75000 Y/N
+				: [SOT-02:09:CCCCC] 999999 Y/N
+				: 
 	3) [Mostrar datos] Publicar por pantalla los datos introducidos para su comprobación.
 	4) [Anular] Anular los datos introducidos.
 	5) [Guardar datos] Persistencia.
