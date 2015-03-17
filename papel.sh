@@ -82,9 +82,9 @@ done
 
 cargarArrayTipos()
 {
-TIPOPAPEL=( $(cat datosPapel.csv | tail -n 1) )
+TIPOPAPEL=( $(cat datosPapelOSTIAS.csv | tail -n 1) )
 cambiarIFS    # Para poder leer las dos líneas y cargarlas en un Array
-CANTIDADPAPEL=( $(cat datosPapel.csv | tail -n 2) )
+CANTIDADPAPEL=( $(cat datosPapelOSTIAS.csv | tail -n 2) )
 volverIFS
 }
 
@@ -109,6 +109,31 @@ IFS=$'\n'
 volverIFS()
 {
 IFS=$IFS_old
+}
+
+##############################################################################
+##############################################################################
+## DESPUES DE LEER LOS DATOS ESTOS SE CARGAN EN LOS ARRAYS PARA TRABAJARLOS.
+##############################################################################
+##############################################################################
+
+llenarDatosArrays()
+{
+inicializarArrayTipos
+cargarArrayTipos
+
+CANTIDADPAPEL0=( ${CANTIDADPAPEL[0]} )     # Separar el array en dos arrays. Uno de cantidades y el otro de tipo de papeles.
+
+contar 0 13                                # CALCULA LOS SUB-TOTALES DEL SOTANO-2.
+TOTAL_SOTANO_002=(${TOTAL_SOTANO[*]})
+
+contar 14 18                               # CALCULA LOS SUB-TOTALES DEL SOTANO-1.
+TOTAL_SOTANO_001=(${TOTAL_SOTANO[@]})
+
+contar 19 27                               # CALCULA LOS SUB-TOTALES DEL CUARTO.
+TOTAL_CUARTO=(${TOTAL_SOTANO[@]})
+
+contarTOTAL                                # CALCULA EL TOTAL DE TODO.
 }
 
 ##############################################################################
@@ -303,7 +328,7 @@ grabarDisco()
 echo "###############################################################################" >> $FICHERO
 echo "Estamos a fecha: $FECHAHM Semana nº: $SEMANA" >> $FICHERO
 echo "###############################################################################" >> $FICHERO
-echo ${CANTIDADPAPEL[0]} >> $FICHERO
+echo ${CANTIDADPAPEL0[@]} >> $FICHERO
 echo ""
 echo ${CANTIDADPAPEL[1]} >> $FICHERO
 }
@@ -434,7 +459,7 @@ tabla SOTANO-2 2 19 2 3 28
 
 ##############################################################################
 ##############################################################################
-## UNO DE LOS VARIOS MENUS NECESARIOS.
+##  MENU PRINCIPAL.
 ##############################################################################
 ##############################################################################
 
@@ -453,14 +478,102 @@ Menu_mostrarDatos()
     echo "=================================="
     echo "6) Salir";echo "" 
 
-    read -p "Meter opción elegida: " answer 
+    read -p "METER OPCIÓN: " answer 
     case "$answer" in 
         1) funcionSotano-2;;
         2) funcionSotano-1;;
         3) funcionCuarto;;
         4) tablaResumenTotal;;
         5) Menu_meterDatos;;
-        6) grabarDisco;exit;;   #Grabar los datos a fichero y salir.
+        6) exit;;   # salir.
+        *) echo "Eleccion incorrecta.Debe introducir 1, 2, 3, 4, 5 o 6."; sleep 1;;
+    esac
+}
+
+##############################################################################
+##############################################################################
+## FUNCIONES MENU SECUNDARIO.
+##############################################################################
+##############################################################################
+
+function meter_Todos_Datos
+{
+echo ""
+echo "1) Meter todos los datos."
+echo ""
+cuarto[0]=""
+
+for i in {0..27}
+do
+  echo "POSICION: $i Introduzca la cantidad de PAPEL: "
+  read cantidad_temp dummy
+  CANTIDADPAPEL0[$i]=${cantidad_temp}
+done
+grabarDisco
+llenarDatosArrays
+}
+
+function meter_SOT-1_Datos
+{
+echo ""
+echo "1) Meter los datos del papel de la Sala de Impresoras."
+echo ""
+
+for i in {14..18}
+do
+  printf "[SOT-1::%2d::%5s]\n" "$i" "${CANTIDADPAPEL0[$i]}"
+  echo "POSICION: $i Introduzca la cantidad de PAPEL: "
+  read cantidad_temp dummy
+  CANTIDADPAPEL0[$i]=${cantidad_temp}
+done
+grabarDisco
+llenarDatosArrays
+}
+
+
+function meterUnSoloDato
+{
+echo ""
+echo "2) Meter un solo dato."
+echo ""
+}
+
+function comprobar 
+{
+echo ""
+echo "3) Comprobar."
+echo ""
+}
+ 
+##############################################################################
+##############################################################################
+## MENU SECUNDARIO.
+##############################################################################
+##############################################################################
+
+Menu_meterDatos()
+{
+    echo ""
+    echo "${negrita}INTRODUCIR DATOS (MENU).${q_negrita}"
+    echo "==================================================="
+    echo ""
+    echo "1) Meter todos los datos."
+    echo "2) Meter un sólo dato. ¿Cual?"
+    echo "3) Meter los datos de SOTANO -1."
+    #echo "4) Mostrar el TOTAL."
+    #echo "5) Introducir DATOS."
+
+    echo "=================================="
+    echo "6) SALIR.";echo "" 
+
+    read -p "METER OPCIÓN: " answer dummy 
+    case "$answer" in 
+        1) meter_Todos_Datos;;
+        2) meterUnSoloDato;;
+        3) meter_SOT-1_Datos;;
+    #    4) tablaResumenTotal;;
+    #    5) Menu_meterDatos;;
+    #    6) grabarDisco;exit;;   #Grabar los datos a fichero y salir.
         *) echo "Eleccion incorrecta.Debe introducir 1, 2, 3, 4, 5 o 6."; sleep 1;;
     esac
 }
@@ -472,26 +585,11 @@ Menu_mostrarDatos()
 ##############################################################################
 
 cabecera
-
-inicializarArrayTipos
-cargarArrayTipos
-
-CANTIDADPAPEL0=( ${CANTIDADPAPEL[0]} )     # Separar el array en dos arrays. Uno de cantidades y el otro de tipo de papeles.
-
-contar 0 13                                # CALCULA LOS SUB-TOTALES DEL SOTANO-2.
-TOTAL_SOTANO_002=(${TOTAL_SOTANO[*]})
-
-contar 14 18                               # CALCULA LOS SUB-TOTALES DEL SOTANO-1.
-TOTAL_SOTANO_001=(${TOTAL_SOTANO[@]})
-
-contar 19 27                               # CALCULA LOS SUB-TOTALES DEL CUARTO.
-TOTAL_CUARTO=(${TOTAL_SOTANO[@]})
-
-contarTOTAL                                # CALCULA EL TOTAL DE TODO.
+llenarDatosArrays
 
 ##############################################################################
 ##############################################################################
-## EN ESTE PUNTO PONEMOS UN BUCLE INFINITO Y COMIENZA EL PROGRAMA.
+## EN ESTE PUNTO PONEMOS UN BUCLE INFINITO PARA NO SALIR DEL PROGRAMA.
 ##############################################################################
 ##############################################################################
 
