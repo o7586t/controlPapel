@@ -522,7 +522,7 @@ echo ""
 for i in {14..18}
 do
   #printf "[SOT-1::%2d::%5s]\n" "$i" "${CANTIDADPAPEL0[$i]}"
-  printf "[SOT-1:%2d:%5s] %6d %4s\n" "$i" "${TIPOPAPEL[$i]}" "${CANTIDADPAPEL0[$i]}" " Y/n"
+  printf "[SOT-1:%2d:%5s] %6d %52s\n" "$i" "${TIPOPAPEL[$i]}" "${CANTIDADPAPEL0[$i]}" " Y/n Por defecto admite la cantidad mostrada. TXMIT."
   echo "POSICION: $i Introduzca la cantidad de PAPEL: "
   read cantidad_temp dummy
   CANTIDADPAPEL0[$i]=${cantidad_temp}
